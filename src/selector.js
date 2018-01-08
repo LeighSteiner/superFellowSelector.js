@@ -18,8 +18,13 @@ var traverseDomAndCollectElements = function(matchFunc, startEl) {
 // return one of these types: id, class, tag.class, tag
 
 var selectorTypeMatcher = function(selector) {
+
   // your code here
-};
+  if(selector[0] === "#") return "id"
+  if (selector[0] === ".") return "class" 
+  if(selector.includes(".")) return "tag.class"
+return "tag";
+}; 
 
 
 // NOTE ABOUT THE MATCH FUNCTION
@@ -32,16 +37,24 @@ var matchFunctionMaker = function(selector) {
   var matchFunction;
   if (selectorType === "id") {
     // define matchFunction for id
+    var matchFunction = function(el){
+      return el.id && (el.id=== selector.slice[0])
+    }
 
   } else if (selectorType === "class") {
     // define matchFunction for class
+    var matchFunction = function(el){
+      var classes = 
+    }
 
   } else if (selectorType === "tag.class") {
     // define matchFunction for tag.class
 
   } else if (selectorType === "tag") {
     // define matchFunction for tag
-
+      var matchFunction = function (el) {
+        return el.tagName && (el.tagName.toLowerCase() === selector.toLowerCase());
+};
   }
   return matchFunction;
 };
