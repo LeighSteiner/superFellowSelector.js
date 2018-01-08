@@ -44,7 +44,10 @@ var matchFunctionMaker = function(selector) {
   } else if (selectorType === "class") {
     // define matchFunction for class
     var matchFunction = function(el){
-      var classes = 
+      var classes = selector.split(" ");
+      console.log('CLASSES', classes)
+      console.log('selector', selector)
+     return classes.includes(selector) ? true : false
     }
 
   } else if (selectorType === "tag.class") {
