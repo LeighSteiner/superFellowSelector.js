@@ -10,6 +10,14 @@ var traverseDomAndCollectElements = function(matchFunc, startEl) {
 
   // YOUR CODE HERE
 
+  if (matchFunc(startEl)){
+    resultSet.push(startEl)
+  }
+
+  [].slice.call(startEl.children).forEach(function(child) {
+        var matchingElementsStartingAtChild = traverseDomAndCollectElements(matchFunc, child);
+        resultSet = resultSet.concat(matchingElementsStartingAtChild);
+    })
   return resultSet;
 };
 
@@ -38,21 +46,29 @@ var matchFunctionMaker = function(selector) {
   if (selectorType === "id") {
     // define matchFunction for id
     var matchFunction = function(el){
-      return el.id && (el.id=== selector.slice[0])
+      return el.id && ("#" + el.id === selector)
     }
 
   } else if (selectorType === "class") {
     // define matchFunction for class
-    var matchFunction = function(el){
-      var classes = selector.split(" ");
-      console.log('CLASSES', classes)
-      console.log('selector', selector)
-     return classes.includes(selector) ? true : false
-    }
+      matchFunction = function (el){
+        var arr = el.className.split(" ");
+        if (arr.indexOf(selector.slice(1))> -1){return true;}
+        return false;
+      }
 
   } else if (selectorType === "tag.class") {
     // define matchFunction for tag.class
-
+      matchFunction = function (el){
+      var select = selector.split('.');
+      var tag = select[0];
+      var ourClass = select[1];
+      var arr = el.className.split(' ');
+      if (el.tagName.toLowerCase() === tag.toLowerCase() && arr.indexOf(ourClass)> -1){
+        return true;
+      }
+      return false;
+  }
   } else if (selectorType === "tag") {
     // define matchFunction for tag
       var matchFunction = function (el) {
